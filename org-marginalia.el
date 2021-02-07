@@ -319,10 +319,11 @@ sorted in the ascending order; this is useful for
   ;; The dot "." is imporant to make the car/cdr "getter" interface clean.
   ;; Also, `set-marker-insertion-type' to set the type t is necessary to move
   ;; the cursor in sync with the font-lock-face property of the text property.
-  (push (cons id
-          (cons (org-marginalia-make-highlight-marker beg) (org-marginalia-make-highlight-marker end)))
-        org-marginalia-highlights)
-  (org-marginalia-sort-highlights-list))
+  (unless (assoc id org-marginalia-highlights)
+    (push (cons id
+                (cons (org-marginalia-make-highlight-marker beg) (org-marginalia-make-highlight-marker end)))
+          org-marginalia-highlights)
+    (org-marginalia-sort-highlights-list)))
 
 ;;;###autoload
 (defun org-marginalia-save ()
@@ -664,6 +665,47 @@ state."
         (remove-list-of-text-properties beg end '(org-marginalia-hidden))
         (add-text-properties beg end '(font-lock-face org-marginalia-highlighter))))
     t))
+
+(defun org-marginalia-fontify-highlights ()
+  "WIP."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((match))
+      (while (setq match (text-property-search-forward 'org-marginalia-id))
+        (org-marginalia-mark (prop-match-beginning match)
+                             (prop-match-end match)
+                             (prop-match-value match))))))
+
+(defun org-marginalia-remove-highlight-faces ()
+  "Remove all the highlight faces from the buffer.
+It does not remove other text-properties."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((match))
+      (while (setq match (text-property-search-forward
+                          'font-lock-face 'org-marginalia-highlighter))
+        (remove-text-properties (prop-match-beginning match)
+                                (prop-match-end match)
+                                '(font-lock-face))))))
+
+(defun org-marginalia-clean-up-highlights ()
+  "Cleans up `org-marginalia-highlights' variable for the buffer.
+It removes the highlight faces, and removes elements that do not
+have an ID associated with them. It finally calls
+`org-marginalia-fontify-highlights' to reconstruct all the
+highlights based on the current marginalia file."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((match new-list))
+      (while (setq match (text-property-search-forward 'org-marginalia-id))
+
+    )
+
+  )
+
 
 ;;;; Footer
 
