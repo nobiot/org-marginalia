@@ -304,9 +304,9 @@ When this function is called from Elisp, ID can be optionally
 passed. If so, no new ID gets generated.
 
 Every highlighted texts in the local buffer is tracked by
-`org-marginalia-highlights' local variable. The highlght is sorted by the
-beginning point in the ascending; this is useful for `org-marginalia-next'
-and `org-marginalia-prev'."
+`org-marginalia-highlights' local variable. The highlght is
+sorted in the ascending order; this is useful for
+`org-marginalia-next' and `org-marginalia-prev'."
   (interactive "r")
   ;; UUID is too long; does not have to be the full length
   (when (not id) (setq id (substring (org-id-uuid) 0 8)))
@@ -365,12 +365,11 @@ tracking it."
     (setq org-marginalia-last-notes-buffer ibuf)
     ;; TODO Need to check if there is a user-custom alist already.
     ;; If so, do not override it.
-    (let ((display-buffer-alist
-           `(("*marginalia*"
-              (display-buffer-in-side-window)
-              (window-width . ,org-marginalia-window-width)
-              (side . ,org-marginalia-window-side)))))
-      (switch-to-buffer-other-window ibuf))
+    (let ((display-buffer-mark-dedicated t))
+      (display-buffer-in-side-window ibuf
+                                     `((window-width . ,org-marginalia-window-width)
+                                       (side . ,org-marginalia-window-side))))
+    (switch-to-buffer-other-window ibuf)
     (widen)(goto-char (point-min))
     (when (org-find-property org-marginalia-prop-id id)
       (goto-char (org-find-property org-marginalia-prop-id id))
