@@ -192,6 +192,49 @@ Ensure that it is an Org file."
   :type 'string
   :group 'org-marginalia)
 
+(defcustom org-marginalia-window-width 0.25
+  "Specify the width of the marginalia side-window.
+Internally, `org-marginalia' uses this customizable variable to
+temporarily set `display-buffer-alist' with using
+`display-buffer-in-side-window' before displaying the marginalia
+buffer.
+
+The value should be either an integer or a floating point number,
+as in the default. A full documentation is available in the
+docstring of `display-buffer'; below is an excerpt for
+\\'window-width\\':
+
+ ‘window-width’ -- The value specifies the desired width of the
+    window chosen and is either an integer (the total width of
+    the window), a floating point number (the fraction of its
+    total width with respect to the width of the frame’s root
+    window) or a function to be called with one argument - the
+    chosen window.  The function is supposed to adjust the width
+    of the window; its return value is ignored.
+
+If you set your own `display-buffer-alist' values for
+\*marginalia\* buffer, `org-marginalia' does not override them
+(WIP) currently it overrides the user values."
+  :type 'number
+  :group 'org-marginalia)
+
+(defcustom org-marginalia-window-side 'left
+  "Specify which side the marginalia side-window is displayed.
+Internally, `org-marginalia' uses this customizable variable to
+temporarily set `display-buffer-alist' with using
+`display-buffer-in-side-window' before displaying the marginalia
+buffer. In theory, thus, you could use \\'top\\' and
+\\'bottom\\', but these options are not taken into account by
+`org-marginalia'. It only sets \\'window-width\\' with
+`org-marginalia-window-width' option.
+
+If you set your own `display-buffer-alist' values for
+\*marginalia\* buffer, `org-marginalia' does not override them
+(WIP) currently it overrides the user values."
+  :type '(choice (const :tag "Left: Display marginalia side-window on the left." left)
+                 (const :tag "Right: Display marginalia side-window on the right." right))
+  :group 'org-marginalia)
+
 ;;;; Variables
 
 (defvar-local org-marginalia-highlights '()
@@ -313,13 +356,21 @@ close the window) as per your normal workflow.
 This package ensures that there is only one cloned buffer for marginalia by
 tracking it."
   (interactive "d")
+  ;; See binder-mode for how it manages the side-window
   (when (buffer-live-p org-marginalia-last-notes-buffer)
     (kill-buffer org-marginalia-last-notes-buffer))
   (when-let ((id (get-char-property point 'org-marginalia-id))
              (ibuf (make-indirect-buffer
                    (find-file-noselect org-marginalia-notes-file-path) "*marginalia*" 'clone)))
     (setq org-marginalia-last-notes-buffer ibuf)
-    (org-switch-to-buffer-other-window ibuf)
+    ;; TODO Need to check if there is a user-custom alist already.
+    ;; If so, do not override it.
+    (let ((display-buffer-alist
+           `(("*marginalia*"
+              (display-buffer-in-side-window)
+              (window-width . ,org-marginalia-window-width)
+              (side . ,org-marginalia-window-side)))))
+      (switch-to-buffer-other-window ibuf))
     (widen)(goto-char (point-min))
     (when (org-find-property org-marginalia-prop-id id)
       (goto-char (org-find-property org-marginalia-prop-id id))
