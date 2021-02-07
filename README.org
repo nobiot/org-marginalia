@@ -39,12 +39,12 @@ Refer to the screenshots below for a teaser of  what it can do.
 - [[#feedback][Feedback]]
 - [[#license][License]]
 - [[#marginalia-for-org-marginaliael][Marginalia for org-marginalia.el]]
-  - [[#t][t))]]
-  - [[#autoload][#autoload]]
-  - [[#autoload][#autoload]]
-  - [[#t][t))]]
-  - [[#interactive][(interactive]]
+  - [[#nalia-source-beg-n][nalia-source-beg" n]]
+  - [[#fer-each-highlight][fer each highlight]]
   - [[#org-marginalia-open][org-marginalia-open]]
+  - [[#org-marginalia-fontify-highlights][org-marginalia-fontify-highlights]]
+  - [[#interactive][(interactive]]
+  - [[#push][push]]
 :END:
 
 * Installation
@@ -244,17 +244,12 @@ This work is licensed under a GPLv3 license. For a full copy of the licese, refe
 :END:
 This section is used as a demonstration and a collection of my ideas for this package.
 
-** t))
-:PROPERTIES:
-:marginalia-source-beg: 17702
-:marginalia-source-end: 17721
-:END:
 
-(defun or
+** nalia-source-beg" n
 :PROPERTIES:
 :marginalia-id: 0dba860c
-:marginalia-source-beg: 17701
-:marginalia-source-end: 17720
+:marginalia-source-beg: 17889
+:marginalia-source-end: 17908
 :END:
 [[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
 
@@ -262,12 +257,7 @@ I need to think it through.
 Do I want to reveal invisible elments to move, or keep it hidden.
 At the moment, ~om/list-highlights-positions~ has been changed to return beginning points of visible ones only -- this can be changed to make it opsitonal arg. For example, if I want to list *all*, including the hidden ones, do I want to just visible ones?
 
-** #autoload
-:PROPERTIES:
-:marginalia-source-beg: 10225
-:marginalia-source-end: 10244
-:END:
-(defun or
+** fer each highlight
 :PROPERTIES:
 :marginalia-id: b3c8f14e
 :marginalia-source-beg: 10224
@@ -310,50 +300,37 @@ jit-lock-register
 
 
 
-
-** #autoload
-:PROPERTIES:
-:marginalia-source-beg: 10346
-:marginalia-source-end: 10365
-:END:
-(defun or
-:PROPERTIES:
-:marginalia-id: b3c8f14e
-:marginalia-source-beg: 10307
-:marginalia-source-end: 10326
-:END:
-(defun or
-[[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
-** t))
-:PROPERTIES:
-:marginalia-source-beg: 17823
-:marginalia-source-end: 17842
-:END:
-
-(defun or
-:PROPERTIES:
-:marginalia-id: 0dba860c
-:marginalia-source-beg: 17784
-:marginalia-source-end: 17803
-:END:
-    t))
-
-(defun or
-[[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
-** (interactive
-:PROPERTIES:
-:marginalia-id: 368a41a8
-:marginalia-source-beg: 14901
-:marginalia-source-end: 14913
-:END:
-[[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
 ** org-marginalia-open
 :PROPERTIES:
 :marginalia-id: 6855620d
-:marginalia-source-beg: 14436
-:marginalia-source-end: 14455
+:marginalia-source-beg: 14624
+:marginalia-source-end: 14643
 :END:
 [[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
+** org-marginalia-fontify-highlights
+:PROPERTIES:
+:marginalia-id: 44cb5515
+:marginalia-source-beg: 30106
+:marginalia-source-end: 30139
+:END:
+[[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
+
+[[file:test/copy.org][See the test file]].
+Halfway there. Need:
+- Copy = duplicate ID
+- Clean up the unID'ed hightlights variable elements
+- Integrate with font lock system
+** (interactive
+:PROPERTIES:
+:marginalia-id: 368a41a8
+:marginalia-source-beg: 15089
+:marginalia-source-end: 15101
+:END:
+[[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
+** DONE push
+[[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
+
+This does not check the duplicates, and keeps adding elements.
 * COMMENT Local Variables
 
 # Local Variables:

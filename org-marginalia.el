@@ -285,10 +285,12 @@ the mode, `toggle' toggles the state.
      (org-marginalia-mode
       ;; Activate
       (org-marginalia-load)
-      (add-hook 'after-save-hook #'org-marginalia-save nil t))
+      (add-hook 'after-save-hook #'org-marginalia-save nil t)
+      (jit-lock-register #'org-marginalia-clean-up-highlights))
      (t
       ;; Deactivate
-      (remove-hook 'after-save-hook #'org-marginalia-save t))))
+      (remove-hook 'after-save-hook #'org-marginalia-save t)
+      (jit-lock-unregister #'org-marginalia-clean-up-highlights))))
 
 ;;;###autoload
 (defun org-marginalia-mark (beg end &optional id)
@@ -415,9 +417,10 @@ Load is automatically done when you activate the minor mode."
       ;; Back to the current buffer
       ;; Look highilights and add highlights to the current buffer
       (dolist (highlight highlights)
-        (let ((id (car highlight))
-              (beg (car (cdr highlight)))
-              (end (cdr (cdr highlight))))
+        ;; when-let added to avoid elements missing ID from `org-marginalia-highlights'
+        (when-let ((id (car highlight))
+                   (beg (car (cdr highlight)))
+                   (end (cdr (cdr highlight))))
           (org-marginalia-mark beg end id))))))
 
 ;;;###autoload
@@ -685,27 +688,29 @@ It does not remove other text-properties."
     (goto-char (point-min))
     (let ((match))
       (while (setq match (text-property-search-forward
-                          'font-lock-face 'org-marginalia-highlighter))
-        (remove-text-properties (prop-match-beginning match)
-                                (prop-match-end match)
-                                '(font-lock-face))))))
+                          'font-lock-face))
+        (when (eq (prop-match-value match) 'org-marginalia-highlighter)
+          (remove-text-properties (prop-match-beginning match)
+                                  (prop-match-end match)
+                                  '(font-lock-face)))))))
 
-(defun org-marginalia-clean-up-highlights ()
+(defun org-marginalia-clean-up-highlights (beg end &optional _loudly)
   "Cleans up `org-marginalia-highlights' variable for the buffer.
-It removes the highlight faces, and removes elements that do not
-have an ID associated with them. It finally calls
-`org-marginalia-fontify-highlights' to reconstruct all the
-highlights based on the current marginalia file."
+It
+- Removes the highlight faces,
+- (WIP) Removes elements that do not have an ID associated with them (Necessary?)
+- Updates `org-marginalia-highlights' based on the buffer
+
+(WIP) It does not work for the copy & paste scenario where the
+same id appears twice. Copy takes the one earlier in the
+buffer (smaller point).
+
+This needs to be connected with font-lock."
+
   (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (let ((match new-list))
-      (while (setq match (text-property-search-forward 'org-marginalia-id))
-
-    )
-
-  )
-
+  (org-marginalia-remove-highlight-faces)
+  (setq org-marginalia-highlights nil)
+  (org-marginalia-fontify-highlights))
 
 ;;;; Footer
 
