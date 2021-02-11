@@ -39,10 +39,10 @@ Refer to the screenshots below for a teaser of  what it can do.
 - [[#feedback][Feedback]]
 - [[#license][License]]
 - [[#marginalia-for-org-marginaliael][Marginalia for org-marginalia.el]]
-  - [[#nalia-source-beg-n][nalia-source-beg" n]]
+  - [[#na][na]]
   - [[#fer-each-highlight][fer each highlight]]
   - [[#org-marginalia-open][org-marginalia-open]]
-  - [[#org-marginalia-fontify-highlights][org-marginalia-fontify-highlights]]
+  - [[#or][or]]
   - [[#interactive][(interactive]]
   - [[#push][push]]
 :END:
@@ -245,11 +245,11 @@ This work is licensed under a GPLv3 license. For a full copy of the licese, refe
 This section is used as a demonstration and a collection of my ideas for this package.
 
 
-** nalia-source-beg" n
+** na
 :PROPERTIES:
 :marginalia-id: 0dba860c
-:marginalia-source-beg: 17889
-:marginalia-source-end: 17908
+:marginalia-source-beg: 18258
+:marginalia-source-end: 18260
 :END:
 [[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
 
@@ -307,11 +307,11 @@ jit-lock-register
 :marginalia-source-end: 14643
 :END:
 [[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
-** org-marginalia-fontify-highlights
+** or
 :PROPERTIES:
 :marginalia-id: 44cb5515
-:marginalia-source-beg: 30106
-:marginalia-source-end: 30139
+:marginalia-source-beg: 30475
+:marginalia-source-end: 30477
 :END:
 [[file:~/local-repos/org-marginalia/org-marginalia.el][org-marginalia]]
 

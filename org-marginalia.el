@@ -373,6 +373,12 @@ tracking it."
                                      `((window-width . ,org-marginalia-window-width)
                                        (side . ,org-marginalia-window-side))))
     (switch-to-buffer-other-window ibuf)
+    ;; Add C-c C-c via `org-ctrl-c-ctrl-c-final-hook'
+    (add-hook 'org-ctrl-c-ctrl-c-final-hook (lambda ()
+                                              ;; Need to return t for hook
+                                              (kill-buffer-and-window) t)
+                                              nil 'LOCAL)
+    ;; Find marginalia id; if found, move and narrow
     (widen)(goto-char (point-min))
     (when (org-find-property org-marginalia-prop-id id)
       (goto-char (org-find-property org-marginalia-prop-id id))
